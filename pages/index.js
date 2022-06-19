@@ -1,11 +1,14 @@
 import React from "react";
 import axios from "axios";
-import Version from '../components/Version';
+import Link from "next/link";
+
+import Version from "../components/Version";
+import SenadorProfile from "../components/SenadorProfile";
 
 function ListSenators({ senators, versionData }) {
   return (
     <>
-      <Version {...versionData}/>
+      <Version {...versionData} />
       <section>
         <ul
           style={{
@@ -22,16 +25,13 @@ function ListSenators({ senators, versionData }) {
                 }}
                 key={senator.IdentificacaoParlamentar.CodigoParlamentar}
               >
-                <img
-                  src={senator.IdentificacaoParlamentar.UrlFotoParlamentar}
-                  alt={`foto de perfil ${senator.IdentificacaoParlamentar.FormaTratamento} ${senator.IdentificacaoParlamentar.NomeCompletoParlamentar}`}
-                  width={200}
-                  height={200}
-                />
-                <div>
-                  {senator.IdentificacaoParlamentar.NomeParlamentar} -{" "}
-                  {senator.IdentificacaoParlamentar.SiglaPartidoParlamentar}
-                </div>
+                <a
+                  href={`/senador/${senator.IdentificacaoParlamentar.CodigoParlamentar}`}
+                >
+                  <SenadorProfile
+                    IdentificacaoParlamentar={senator.IdentificacaoParlamentar}
+                  />
+                </a>
               </li>
             );
           })}
