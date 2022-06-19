@@ -36,7 +36,7 @@ export default function Home({ senators, versionData }) {
     <div>
       <h1>Boas vindas ao projeto Falou</h1>
       <p>
-        O projeto Falou tem como objetivo mapear te organizar tudo que os
+        O projeto Falou tem como objetivo mapear e organizar tudo que os
         senadores do Brasil falaram durante seu mandato
       </p>
       {versionData && (
