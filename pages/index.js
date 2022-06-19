@@ -8,10 +8,21 @@ function ListSenators({ senators, versionData }) {
         <h4>Ultima atualização: {versionData.Versao}</h4>
       </section>
       <section>
-        <ul>
+        <ul
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+          }}
+        >
           {senators.map((senator) => {
             return (
-              <li key={senator.IdentificacaoParlamentar.CodigoParlamentar}>
+              <li
+                style={{
+                  width: "400px",
+                  height: "300px",
+                }}
+                key={senator.IdentificacaoParlamentar.CodigoParlamentar}
+              >
                 <img
                   src={senator.IdentificacaoParlamentar.UrlFotoParlamentar}
                   alt={`foto de perfil ${senator.IdentificacaoParlamentar.FormaTratamento} ${senator.IdentificacaoParlamentar.NomeCompletoParlamentar}`}
@@ -71,7 +82,7 @@ export async function getStaticProps(context) {
       revalidate: 60,
     };
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return {
       props: {
         senators: [],
