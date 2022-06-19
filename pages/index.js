@@ -67,6 +67,7 @@ const getListSenators = async () => {
 };
 
 export async function getStaticProps(context) {
+  const revalidateTime = 60 * 60 * 6; // 6h
   try {
     const api = "https://legis.senado.leg.br/dadosabertos";
     const url = `${api}/senador/lista/atual`;
@@ -79,7 +80,7 @@ export async function getStaticProps(context) {
         senators,
         versionData,
       },
-      revalidate: 60,
+      revalidate: revalidateTime,
     };
   } catch (err) {
     console.log(err);
@@ -88,7 +89,7 @@ export async function getStaticProps(context) {
         senators: [],
         versionData: null,
       },
-      revalidate: 60,
+      revalidate: revalidateTime,
     };
   }
 }
