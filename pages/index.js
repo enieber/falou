@@ -1,12 +1,11 @@
 import React from "react";
 import axios from "axios";
+import Version from '../components/Version';
 
 function ListSenators({ senators, versionData }) {
   return (
     <>
-      <section>
-        <h4>Ultima atualização: {versionData.Versao}</h4>
-      </section>
+      <Version {...versionData}/>
       <section>
         <ul
           style={{
