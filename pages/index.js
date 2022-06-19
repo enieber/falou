@@ -46,29 +46,38 @@ export default function Home({ senators, versionData }) {
   );
 }
 
-export async function getServerSideProps(context) {
+const getListSenators = async () => {
+  const api = "https://legis.senado.leg.br/dadosabertos";
+  const url = `${api}/senador/lista/atual`;
+  const senators = await axios.get(url);
+  const data = senators.data.ListaParlamentarEmExercicio;
+
+  return data;
+};
+
+export async function getStaticProps(context) {
   try {
-    const { req, query, res, asPath, pathname } = context;
-    if (req) {
-      const host = req.headers.host;
-      const isHttps = !req.headers.referer
-      const response = await axios.get(`${isHttps ? 'https://': 'http://'}${host}api/senators`);
-      const senators = response.data.Parlamentares.Parlamentar;
-      const versionData = response.data.Metadados;
-      return {
-        props: {
-          senators,
-          versionData,
-        },
-      };
-    }
-    throw new Error("not found");
+    const api = "https://legis.senado.leg.br/dadosabertos";
+    const url = `${api}/senador/lista/atual`;
+    const response = await axios.get(url);
+    const data = response.data.ListaParlamentarEmExercicio;
+    const senators = data.Parlamentares.Parlamentar;
+    const versionData = data.Metadados;
+    return {
+      props: {
+        senators,
+        versionData,
+      },
+      revalidate: 60,
+    };
   } catch (err) {
+    console.log(err)
     return {
       props: {
         senators: [],
         versionData: null,
       },
+      revalidate: 60,
     };
   }
 }

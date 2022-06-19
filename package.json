@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_OPTIONS='-r next-logger' next start",
-    "dev": "NODE_OPTIONS='-r next-logger' next dev"
+    "dev": "next dev"
   },
   "dependencies": {
     "axios": "^0.27.2",
