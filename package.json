@@ -4,12 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "next start",
-    "dev": "next dev"
+    "start": "NODE_OPTIONS='-r next-logger' next start",
+    "dev": "NODE_OPTIONS='-r next-logger' next dev"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "next": "^12.1.6",
+    "next-logger": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
