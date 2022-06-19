@@ -50,9 +50,9 @@ export async function getServerSideProps(context) {
   try {
     const { req, query, res, asPath, pathname } = context;
     if (req) {
-      const host = req.headers.referer; 
-      console.log(host)
-      const response = await axios.get(`${host}api/senators`);
+      const host = req.headers.host;
+      const isHttps = !req.headers.referer
+      const response = await axios.get(`${isHttps ? 'https://': 'http://'}${host}api/senators`);
       const senators = response.data.Parlamentares.Parlamentar;
       const versionData = response.data.Metadados;
       return {
