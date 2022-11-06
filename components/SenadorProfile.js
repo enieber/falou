@@ -7,7 +7,7 @@ export default function SenadorProfile({ IdentificacaoParlamentar }) {
       <SenadorImage IdentificacaoParlamentar={IdentificacaoParlamentar} />
       <div>
         {IdentificacaoParlamentar.NomeParlamentar} -{" "}
-        {IdentificacaoParlamentar.SiglaPartidoParlamentar}
+        {IdentificacaoParlamentar.UfParlamentar}
       </div>
     </div>
   );
