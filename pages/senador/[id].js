@@ -5,14 +5,40 @@ import axios from "axios";
 
 import Version from "../../components/Version";
 import SenadorProfile from "../../components/SenadorProfile";
+/*
+ <h3>{senator.IdentificacaoParlamentar.SiglaPartidoParlamentar}</h3>
 
-export default function Senador(props) {
+      */
+function Header(props) {
+  console.log(props.discursos.IdentificacaoParlamentar);
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        height: "80vh",
+        background: "#FAAFAA",
+      }}
+    >
       <h1>Apartes</h1>
       <SenadorProfile
         IdentificacaoParlamentar={props.discursos.IdentificacaoParlamentar}
       />
+
+      <div>
+        <h3>
+          {props.discursos.IdentificacaoParlamentar.SiglaPartidoParlamentar}
+        </h3>
+      </div>
+    </div>
+  );
+}
+
+export default function Senador(props) {
+  return (
+    <>
+      <Header discursos={props.discursos} />
       <Version {...props.versionData} />
       {props.discursos.Apartes.Aparte.map((item) => {
         return (
