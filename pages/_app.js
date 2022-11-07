@@ -1,24 +1,35 @@
 import Link from "next/link";
 
+function AncorStyled(props) {
+  return (
+    <Link href={props.href}>
+  <a style={{
+          textDecoration: 'none',
+    cursor: 'pointer',
+    color: "#000",
+    fontSize: 16
+      }}>{props.children}
+          </a>
+    </Link>
+
+  )
+}
+
 export default function MyApp({ Component, pageProps }) {
   return (
     <div>
       <nav
         style={{
-          margin: 10,
+          padding: 10,
           display: "flex",
           justifyContent: "space-around",
+          marginBottom: 20,
+          borderBottom:'1px solid #000',
         }}
       >
-        <div>
-          <Link href="/">Inicio</Link>
-        </div>
-        <div>
-          <Link href="/sessoes">Sessões</Link>
-        </div>
-        <div>
-          <Link href="/senadores">Senadores</Link>
-        </div>
+        <AncorStyled href="/">Falou</AncorStyled>
+        <AncorStyled href="/sessoes">Sessões</AncorStyled>
+        <AncorStyled href="/senadores">Senadores</AncorStyled>
       </nav>
       <Component {...pageProps} />
     </div>
