@@ -307,7 +307,7 @@ async function listaSenadores() {
 }
 
 export async function getStaticProps(context) {
-  const revalidateTime = 60; //60 * 60 * 12; // 12h
+  const revalidateTime = 60 * 60 * 12; // 12h
 
   const comissoes = await listaComissoes();
   const { senators, versionData } = await listaSenadores();
