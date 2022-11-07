@@ -14,7 +14,10 @@ function Card({ value, description}){
      flexDirection: 'column',
      border: '1px solid #000',
      padding: 10,
-     borderRadius: 5
+     borderRadius: 5,
+     background: '#FFF',
+     width: '30vw',
+     height: '20vh',
     }}>
      <h3>{value}</h3>
       <h4>{description}</h4>
@@ -35,7 +38,9 @@ function HeaderListSenators(props) {
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         alignItems: 'center',
-        margin: 10,
+        padding: 10,
+        height: '50vh',
+        background: '#FAAFAA'
       }}
     >
       <Card value={senadores} description={`O Brasil tem ${senadores} senadores`} />
@@ -194,8 +199,7 @@ function ListSenators(props) {
       />
       <Version {...versionData} />
      
-      <section>
-        <div
+      <section
           style={{
             display: "flex",
             justifyContent: 'center',
@@ -205,7 +209,6 @@ function ListSenators(props) {
           <ListWithSearch
             list={senators}
           />
-                 </div>
       </section>
     </>
   );
