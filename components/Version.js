@@ -1,10 +1,9 @@
 export default function Version(props) {
-  
   return (
     <section
       style={{
-        display: 'flex',
-        justifyContent: 'center',
+        display: "flex",
+        justifyContent: "center",
         margin: 10,
       }}
     >

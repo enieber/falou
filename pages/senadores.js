@@ -5,25 +5,26 @@ import Link from "next/link";
 import Version from "../components/Version";
 import SenadorProfile from "../components/SenadorProfile";
 
-function Card({ value, description}){
+function Card({ value, description }) {
   return (
-   <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-     flexDirection: 'column',
-     border: '1px solid #000',
-     padding: 10,
-     borderRadius: 5,
-     background: '#FFF',
-     width: '30vw',
-     height: '20vh',
-    }}>
-     <h3>{value}</h3>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        border: "1px solid #000",
+        padding: 10,
+        borderRadius: 5,
+        background: "#FFF",
+        width: "30vw",
+        height: "20vh",
+      }}
+    >
+      <h3>{value}</h3>
       <h4>{description}</h4>
     </div>
-
-  )
+  );
 }
 
 function HeaderListSenators(props) {
@@ -33,182 +34,222 @@ function HeaderListSenators(props) {
   return (
     <div
       style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        alignItems: 'center',
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-around",
+        alignItems: "center",
         padding: 10,
-        height: '50vh',
-        background: '#FAAFAA'
+        height: "50vh",
+        background: "#FAAFAA",
       }}
     >
-      <Card value={senadores} description={`O Brasil tem ${senadores} senadores`} />
-      <Card value={comissoes} description={`O senado tem ${comissoes} comissões`} />
+      <Card
+        value={senadores}
+        description={`O Brasil tem ${senadores} senadores`}
+      />
+      <Card
+        value={comissoes}
+        description={`O senado tem ${comissoes} comissões`}
+      />
     </div>
-   )
+  );
 }
 
 function filterSenatorByName(word) {
   if (word) {
-  const wordLowerCase = word.toLocaleLowerCase()
-  
-    return function(item) {
-      const itemToSearch = item.IdentificacaoParlamentar.NomeParlamentar.toLocaleLowerCase();
-      return itemToSearch.includes(wordLowerCase)
-    }
+    const wordLowerCase = word.toLocaleLowerCase();
+
+    return function (item) {
+      const itemToSearch =
+        item.IdentificacaoParlamentar.NomeParlamentar.toLocaleLowerCase();
+      return itemToSearch.includes(wordLowerCase);
+    };
   } else {
     return (_item) => true;
   }
 }
 
 function filterSenatorByUF(word) {
-  const wordLowerCase = word.toLocaleLowerCase()
-  return function(item) {
-    const itemToSearch = item.IdentificacaoParlamentar.UfParlamentar.toLocaleLowerCase();
-    return itemToSearch.includes(wordLowerCase)
+  const wordLowerCase = word.toLocaleLowerCase();
+  return function (item) {
+    const itemToSearch =
+      item.IdentificacaoParlamentar.UfParlamentar.toLocaleLowerCase();
+    return itemToSearch.includes(wordLowerCase);
+  };
+}
+
+function filterSenatorByPartido(word) {
+  const wordLowerCase = word.toLocaleLowerCase();
+  return function (item) {
+    const itemToSearch =
+      item.IdentificacaoParlamentar.SiglaPartidoParlamentar.toLocaleLowerCase();
+    return itemToSearch === wordLowerCase;
+  };
+}
+
+const optionsSearch = {
+  name: "name",
+  uf: "uf",
+  partido: "partido",
+};
+
+function selectFilter(option) {
+  switch (option) {
+    case "name": {
+      return filterSenatorByName;
+    }
+    case "uf": {
+      return filterSenatorByUF;
+    }
+    case "partido": {
+      return filterSenatorByPartido;
+    }
+    default: {
+      return filterSenatorByName;
+    }
   }
 }
 
-
-const optionsSearch = {
-  name: 'name',
-  uf: 'uf',
-}
-
 function ListWithSearch(props) {
-  const [list, setList] = React.useState(props.list)
-  const [search, setSearch] = React.useState('');
+  const [list, setList] = React.useState(props.list);
+  const [search, setSearch] = React.useState("");
   const [typeSearch, setTypeSearch] = React.useState(optionsSearch.name);
 
   React.useEffect(() => {
     if (search) {
+      console.log(search);
       if (search.length >= 1) {
-        const listToUpdate = props.list.filter(typeSearch === 'name' ? filterSenatorByName(search) :  filterSenatorByUF(search))
-        setList(listToUpdate)
+        const listToUpdate = props.list.filter(
+          selectFilter(typeSearch)(search)
+        );
+        setList(listToUpdate);
       } else {
-        setList(props.list)
+        setList(props.list);
       }
+    } else {
+      setList(props.list);
     }
-  }, [search])
+  }, [search]);
 
   return (
     <div>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <label forHTML="search">Pesquisar:
-        <input
-          id='search'
-          style={{
-            margin: 10,
-            padding: 10,
-          }}
-          value={search} onChange={(event) => setSearch(event.target.value)}/>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <label forHTML="search">
+          Pesquisar:
+          <input
+            id="search"
+            style={{
+              margin: 10,
+              padding: 10,
+            }}
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
         </label>
-        <label forHTML="uf">
-        <input 
-          id="uf"
-          type="checkbox"
-          value={typeSearch === optionsSearch.name}
-          onChange={(event) => {
-            if (typeSearch === optionsSearch.name) {
-            setTypeSearch(optionsSearch.uf)
-          } else {
-            setTypeSearch(optionsSearch.name)}
-          }}
-        />
-          Por Estado
-        </label>
-
+        <select
+          name="Pesquisar por"
+          value={typeSearch}
+          onChange={(event) => setTypeSearch(event.target.value)}
+        >
+          <option value="name" selected>
+            Por Nome
+          </option>
+          <option value="uf">Por Estado</option>
+          <option value="partido">Por partido</option>
+        </select>
       </div>
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        margin: 10,
-      }}
-    >
-       {list.map((senator) => {
-            return <Senator senator={senator} />;
-       })}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+      >
+        Total encontrado: {list.length}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-around",
+          alignItems: "center",
+          margin: 10,
+        }}
+      >
+        {list.map((senator) => {
+          return <Senator senator={senator} />;
+        })}
       </div>
     </div>
-  )
+  );
 }
 
-function DescriptionSenator({ senator  }) {
+function DescriptionSenator({ senator }) {
   if (!senator.IdentificacaoParlamentar.Bloco) {
-    return (
-      <h3>{senator.IdentificacaoParlamentar.SiglaPartidoParlamentar}</h3>
-    )
+    return <h3>{senator.IdentificacaoParlamentar.SiglaPartidoParlamentar}</h3>;
   }
-        return (
-        <div>
-          <h3>{senator.IdentificacaoParlamentar.SiglaPartidoParlamentar}</h3>
+  return (
+    <div>
+      <h3>{senator.IdentificacaoParlamentar.SiglaPartidoParlamentar}</h3>
 
-          <h4>{senator.IdentificacaoParlamentar.Bloco.NomeApelido}</h4>
-                </div>
-  )
+      <h4>{senator.IdentificacaoParlamentar.Bloco.NomeApelido}</h4>
+    </div>
+  );
 }
 
 function Senator(props) {
   const { senator } = props;
   return (
-             <div
-                style={{
-                  minWidth: "20vw",
-                  margin: 10,
-                  border: '1px solid #000',
-                  padding: 10,
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center', 
-                  display: 'flex'
-                }}
-                key={senator.IdentificacaoParlamentar.CodigoParlamentar}
-              >
-                <a
-                  href={`/senador/${senator.IdentificacaoParlamentar.CodigoParlamentar}`}
-                >
-                  <SenadorProfile
-                    IdentificacaoParlamentar={senator.IdentificacaoParlamentar}
-                  />
-                  <DescriptionSenator
-                    senator={senator}
-                  />
-                </a>
-              </div>
-
-
-  )
+    <div
+      style={{
+        minWidth: "20vw",
+        margin: 10,
+        border: "1px solid #000",
+        padding: 10,
+        borderRadius: 5,
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
+      }}
+      key={senator.IdentificacaoParlamentar.CodigoParlamentar}
+    >
+      <a
+        href={`/senador/${senator.IdentificacaoParlamentar.CodigoParlamentar}`}
+      >
+        <SenadorProfile
+          IdentificacaoParlamentar={senator.IdentificacaoParlamentar}
+        />
+        <DescriptionSenator senator={senator} />
+      </a>
+    </div>
+  );
 }
 
 function ListSenators(props) {
-  const { senators, versionData, comissoes } = props
+  const { senators, versionData, comissoes } = props;
   return (
     <>
-      <HeaderListSenators
-        senators={senators}
-        comissoes={comissoes}
-      />
+      <HeaderListSenators senators={senators} comissoes={comissoes} />
       <Version {...versionData} />
-     
+
       <section
-          style={{
-            display: "flex",
-            justifyContent: 'center',
-            flexWrap: "wrap",
-          }}
-        >
-          <ListWithSearch
-            list={senators}
-          />
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        <ListWithSearch list={senators} />
       </section>
     </>
   );
@@ -217,8 +258,12 @@ function ListSenators(props) {
 export default function Home({ senators, versionData, comissoes }) {
   return (
     <div>
-     {versionData && (
-        <ListSenators senators={senators} versionData={versionData} comissoes={comissoes} />
+      {versionData && (
+        <ListSenators
+          senators={senators}
+          versionData={versionData}
+          comissoes={comissoes}
+        />
       )}
     </div>
   );
@@ -233,19 +278,19 @@ const getListSenators = async () => {
   return data;
 };
 
-
 //https://legis.senado.leg.br/dadosabertos/dados/ComissoesPermanentes.xml
 
 const api = "https://legis.senado.leg.br/dadosabertos";
 
 async function listaComissoes() {
   //const url = `${api}/dados/ComissoesMistasCongresso.xml`
-  const url = 'https://www.congressonacional.leg.br/dados/comissao/lista/permanente'
+  const url =
+    "https://www.congressonacional.leg.br/dados/comissao/lista/permanente";
   //const url = `${api}/dados/comissao/lista/permanente`;
   const response = await axios.get(url);
-  const data = response.data.ComissoesCongressoNacional
+  const data = response.data.ComissoesCongressoNacional;
   const comissoes = data.Colegiados.Colegiado;
-  return comissoes
+  return comissoes;
 }
 
 async function listaSenadores() {
@@ -257,18 +302,18 @@ async function listaSenadores() {
 
   return {
     senators,
-    versionData
-  }
+    versionData,
+  };
 }
 
 export async function getStaticProps(context) {
-  const revalidateTime = 60 //60 * 60 * 12; // 12h
+  const revalidateTime = 60; //60 * 60 * 12; // 12h
 
-  const comissoes = await listaComissoes()
-  const { senators, versionData } = await  listaSenadores()
+  const comissoes = await listaComissoes();
+  const { senators, versionData } = await listaSenadores();
 
   try {
-     return {
+    return {
       props: {
         senators,
         versionData,
