@@ -35,23 +35,50 @@ function Header(props) {
   );
 }
 
+function Pronunciamento(props) {
+  const item = props.item;
+  if (!item.CodigoPronunciamento) {
+    return null;
+  }
+  if (!item.SessaoPlenaria) {
+    return null;
+  }
+  if (!item.SessaoPlenaria.DataSessao) {
+    return null;
+  }
+
+  return (
+    <div key={item.CodigoPronunciamento}>
+      <h3>Data: {item.SessaoPlenaria.DataSessao}</h3>
+      <p>{item.TextoResumo}</p>
+      <a target={"_blank"} href={item.UrlTexto}>
+        Ver texto completo
+      </a>
+    </div>
+  );
+}
+
+function ListPronunciamento(props) {
+  const list = props.list;
+
+  if (list.length === 0) {
+    return <div>Lista vazia</div>;
+  }
+  return (
+    <>
+      {list.map((item) => {
+        return <Pronunciamento item={item} />;
+      })}
+    </>
+  );
+}
+
 export default function Senador(props) {
   return (
     <>
       <Header discursos={props.discursos} />
       <Version {...props.versionData} />
-      {props.discursos.Apartes.Aparte.map((item) => {
-        return (
-          <div key={item.CodigoPronunciamento}>
-            <h3>Data: {item.SessaoPlenaria.DataSessao}</h3>
-            <p>{item.TextoResumo}</p>
-            <a target={"_blank"} href={item.UrlTexto}>
-              Ver texto completo
-            </a>
-          </div>
-        );
-      })}
-      <div></div>
+      <ListPronunciamento list={props.discursos.Apartes.Aparte} />
     </>
   );
 }

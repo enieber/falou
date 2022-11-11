@@ -2,17 +2,16 @@ import Link from "next/link";
 
 function AncorStyled(props) {
   return (
-    <Link href={props.href}>
-      <a
-        style={{
-          textDecoration: "none",
-          cursor: "pointer",
-          color: "#000",
-          fontSize: 16,
-        }}
-      >
-        {props.children}
-      </a>
+    <Link
+      href={props.href}
+      style={{
+        textDecoration: "none",
+        cursor: "pointer",
+        color: "#000",
+        fontSize: 16,
+      }}
+    >
+      {props.children}
     </Link>
   );
 }
