@@ -2,9 +2,6 @@ import React from "react";
 import axios from "axios";
 import Link from "next/link";
 
-import Version from "../components/Version";
-import SenadorProfile from "../components/SenadorProfile";
-
 export default function Home() {
   return (
     <div style={{
