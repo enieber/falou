@@ -29,7 +29,6 @@ export default function MyApp({ Component, pageProps }) {
         }}
       >
         <AncorStyled href="/">Falou</AncorStyled>
-        <AncorStyled href="/sessoes">Sessões</AncorStyled>
         <AncorStyled href="/senadores">Senadores</AncorStyled>
       </nav>
       <Component {...pageProps} />
