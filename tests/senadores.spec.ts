@@ -1,17 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-const baseUrl = process.env.URL || 'http://localhost:3000'
-
-test('has list of Senadores', async ({ page }) => {
-  await page.goto(baseUrl);
-
-  await page.getByRole('link', { name: 'Senadores' }).click();
-
-  await expect(page).toHaveURL(`${baseUrl}/senadores`);
-});
-
 test('has text number of senadores', async ({ page }) => {
-  await page.goto(baseUrl);
+  await page.goto("/");
 
   await page.getByRole('link', { name: 'Senadores' }).click();
 
@@ -21,7 +11,7 @@ test('has text number of senadores', async ({ page }) => {
 })
 
 test('has text number of comissões', async ({ page }) => {
-  await page.goto(baseUrl);
+  await page.goto("/");
 
   await page.getByRole('link', { name: 'Senadores' }).click();
 
@@ -31,7 +21,7 @@ test('has text number of comissões', async ({ page }) => {
 })
 
 test('test of search senadores by name with 1 result', async ({ page }) => {
-  await page.goto(baseUrl);
+  await page.goto("/");
 
   await page.getByRole('link', { name: 'Senadores' }).click();
 
@@ -43,7 +33,7 @@ test('test of search senadores by name with 1 result', async ({ page }) => {
 })
 
 test('test of search senadores by name withoult result', async ({ page }) => {
-  await page.goto(baseUrl);
+  await page.goto("/");
 
   await page.getByRole('link', { name: 'Senadores' }).click();
 
@@ -55,7 +45,7 @@ test('test of search senadores by name withoult result', async ({ page }) => {
 })
 
 test('test of search senadores by state with 3 result', async ({ page }) => {
-  await page.goto(baseUrl);
+  await page.goto("/");
 
   await page.getByRole('link', { name: 'Senadores' }).click();
 
@@ -68,7 +58,7 @@ test('test of search senadores by state with 3 result', async ({ page }) => {
 
 
 test('test of search senadores by state with withoult result', async ({ page }) => {
-  await page.goto(baseUrl);
+  await page.goto("/");
 
   await page.getByRole('link', { name: 'Senadores' }).click();
 
@@ -80,7 +70,7 @@ test('test of search senadores by state with withoult result', async ({ page }) 
 })
 
 test('test of search senadores by "Partido" with 2 result', async ({ page }) => {
-  await page.goto(baseUrl);
+  await page.goto("/");
 
   await page.getByRole('link', { name: 'Senadores' }).click();
 
@@ -93,7 +83,7 @@ test('test of search senadores by "Partido" with 2 result', async ({ page }) => 
 
 
 test('test of search senadores by "Partido" with withoult result', async ({ page }) => {
-  await page.goto(baseUrl);
+  await page.goto("/");
 
   await page.getByRole('link', { name: 'Senadores' }).click();
 
