@@ -58,11 +58,13 @@ export default function Home({ discursos, versionData }) {
     <div>
       <h1>Sessões</h1>
       {versionData && <Version {...versionData} />}
+      <>
       {discursos.Sessao &&
         discursos.Sessao.map((sessao) => {
           return <SessaoItem key={sessao.CodigoSessao} {...sessao} />;
-        })}
+        })
       }
+      </>
     </div>
   );
 }
