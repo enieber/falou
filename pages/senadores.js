@@ -5,9 +5,10 @@ import Link from "next/link";
 import Version from "../components/Version";
 import SenadorProfile from "../components/SenadorProfile";
 
-function Card({ value, description }) {
+function Card({ value, description, id }) {
   return (
     <div
+      id={id}
       style={{
         display: "flex",
         justifyContent: "center",
@@ -32,7 +33,7 @@ function HeaderListSenators(props) {
   const comissoes = props.comissoes.length;
 
   return (
-    <div
+    <header
       style={{
         display: "flex",
         flexDirection: "row",
@@ -45,14 +46,16 @@ function HeaderListSenators(props) {
       }}
     >
       <Card
+        id="card-senators"
         value={senadores}
         description={`O Brasil tem ${senadores} senadores`}
       />
       <Card
+        id="card-commisoes"
         value={comissoes}
         description={`O senado tem ${comissoes} comissões`}
       />
-    </div>
+    </header>
   );
 }
 
@@ -118,7 +121,6 @@ function ListWithSearch(props) {
 
   React.useEffect(() => {
     if (search) {
-      console.log(search);
       if (search.length >= 1) {
         const listToUpdate = props.list.filter(
           selectFilter(typeSearch)(search)
@@ -133,48 +135,75 @@ function ListWithSearch(props) {
   }, [search]);
 
   return (
-    <div>
+    <>
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-around",
+          width: '100%'
         }}
       >
-        <label forHTML="search">
+    <div
+ style={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            margin: 10,
+          }}>
+
+        <label htmlFor="search">
           Pesquisar:
+        </label>
           <input
             id="search"
             style={{
-              margin: 10,
               padding: 10,
             }}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
-        </label>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            margin: 10,
+          }}>
+        <label htmlFor="filtro">Filtrar</label>
         <select
-          name="Pesquisar por"
+          id="filtro"
+          name="filtro"
+          style={{
+            padding: 10,
+          }}
           value={typeSearch}
-          onChange={(event) => setTypeSearch(event.target.value)}
+          onChange={(event) => {
+            if (typeSearch !== event.target.value) {
+              setSearch("")
+            }
+            setTypeSearch(event.target.value)
+          }}
         >
           <option value="name" selected>
             Por Nome
           </option>
           <option value="uf">Por Estado</option>
-          <option value="partido">Por partido</option>
+          <option value="partido">Por Partido</option>
         </select>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: 10,
-          marginBottom: 10,
-        }}
-      >
+        </div>
+    </div>
+    <div>
+      <h4>
         Total encontrado: {list.length}
+      </h4>
+      </div>
       </div>
       <div
         style={{
@@ -190,7 +219,7 @@ function ListWithSearch(props) {
           return <Senator senator={senator} />;
         })}
       </div>
-    </div>
+    </>
   );
 }
 
@@ -210,7 +239,7 @@ function DescriptionSenator({ senator }) {
 function Senator(props) {
   const { senator } = props;
   return (
-    <div
+    <li
       style={{
         minWidth: "20vw",
         margin: 10,
@@ -231,7 +260,7 @@ function Senator(props) {
         />
         <DescriptionSenator senator={senator} />
       </a>
-    </div>
+    </li>
   );
 }
 
